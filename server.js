@@ -1,6 +1,7 @@
-'use strict'
+'use strict';
 
 global.__base = __dirname;
+require('dotenv').config();
 
 const express = require('express');
 const helmet = require('helmet');
@@ -33,9 +34,9 @@ require(__base + '/app/routes/index')(app);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 /// error handlers
@@ -43,34 +44,38 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (config.app.environment !== 'production') {
-  app.use(function(err, req, res, next) {
-    console.log(err.stack);
+	app.use(function(err, req, res, next) {
+		console.log(err.stack);
 
-    res.status(err.status || 500);
+		res.status(err.status || 500);
 
-    res.json({'errors': {
-      message: err.message,
-      error: err
-    }});
-  });
+		res.json({
+			errors: {
+				message: err.message,
+				error: err
+			}
+		});
+	});
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({'errors': {
-    message: err.message,
-    error: {}
-  }});
+	res.status(err.status || 500);
+	res.json({
+		errors: {
+			message: err.message,
+			error: {}
+		}
+	});
 });
 
 // initializing
-require(__base + '/app/init/mysql');
+// require(__base + '/app/init/mysql');
 
 // start listening to port
 var server = app.listen(config.app.port, () => {
-  logger.info(`Node app started at: ${server.address().port}.`);
+	logger.info(`Node app started at: ${server.address().port}.`);
 });
 
 module.exports = server;

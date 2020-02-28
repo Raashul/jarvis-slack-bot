@@ -11,6 +11,8 @@ module.exports = {
 		cert: process.env.JWT_TOKEN_CERT
 	},
 	slack: {
-		auth_token: process.env.SLACK_AUTH_TOKEN
-	}
+		auth_token: process.env.SLACK_AUTH_TOKEN,
+		verification_token: process.env.SLACK_VERIFICATION_TOKEN
+	},
+	jokes_url: 'https://official-joke-api.appspot.com/random_joke'
 };

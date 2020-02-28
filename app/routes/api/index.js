@@ -12,5 +12,7 @@ exports = module.exports = (app) => {
 	//Slackbot Jokes Endpoint
 	app.post(route.jokes, jokesHandler.tellMeAJoke);
 
+	app.get('/random', jokesHandler.tellMeAJoke);
+
 	// logger.info(`Routes initialized.`);
 };

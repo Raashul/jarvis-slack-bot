@@ -4,6 +4,7 @@ const health = require(__base + '/app/handlers/health');
 const route = require(__base + '/app/routes/config/constants');
 const logger = require(__base + '/app/modules/common/logger');
 
+const twitterHandler = require(__base + '/app/handlers/twitter');
 const jokesHandler = require(__base + '/app/handlers/jokes');
 
 exports = module.exports = (app) => {
@@ -12,7 +13,10 @@ exports = module.exports = (app) => {
 	//Slackbot Jokes Endpoint
 	app.post(route.jokes, jokesHandler.tellMeAJoke);
 
-	app.get('/random', jokesHandler.tellMeAJoke);
+	app.post(route.twitterTrends, twitterHandler.findTrendingTweets);
+
+	//interactive slack component endpoint
+	app.post(route.slack_interactive_component, twitterHandler.handleTweetSelection);
 
 	// logger.info(`Routes initialized.`);
 };

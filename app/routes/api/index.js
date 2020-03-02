@@ -18,5 +18,6 @@ exports = module.exports = (app) => {
 	//interactive slack component endpoint
 	app.post(route.slack_interactive_component, twitterHandler.handleTweetSelection);
 
+	app.post(route.twitterTweet, twitterHandler.tweet);
 	// logger.info(`Routes initialized.`);
 };

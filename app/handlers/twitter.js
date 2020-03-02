@@ -2,8 +2,9 @@ const Twit = require('twit');
 
 const config = require(__base + '/app/config/config');
 const slackModule = require(__base + '/app/modules/common/slack');
+const twitterModule = require(__base + '/app/modules/common/slack');
 
-var T = new Twit({
+const T = new Twit({
 	consumer_key: config.twitter.api_key,
 	consumer_secret: config.twitter.secret_key,
 	access_token: config.twitter.access_token,
@@ -73,7 +74,6 @@ module.exports.handleTweetSelection = async (req, res) => {
 	let jsonBody = JSON.parse(selectedStringVal);
 	if (jsonBody.callback_id === 'trending_tweets' && jsonBody.team.domain === 'hazelnutworld') {
 	}
-	// console.log(jsonBody.actions);
 	const response_body = {
 		token: config.slack.auth_token,
 		channel: '#general',
@@ -81,4 +81,30 @@ module.exports.handleTweetSelection = async (req, res) => {
 	};
 	await slackModule.sendSlackMessage(response_body);
 	res.json(response_body);
+};
+
+module.exports.tweet = async (req, res) => {
+	let body = req.body;
+	await slackModule.extraValidationForTwitter(body);
+
+	const T = new Twit({
+		consumer_key: config.twitter.api_key,
+		consumer_secret: config.twitter.secret_key,
+		access_token: config.twitter.access_token,
+		access_token_secret: config.twitter.token_secret
+	});
+
+	T.post(`https://api.twitter.com/1.1/statuses/update.json?status=${body.text}`)
+		.then(async (response) => {
+			const response_body = {
+				token: config.slack.auth_token,
+				channel: '#general',
+				text: `Tweet Sent -> ${body.text}`
+			};
+			await slackModule.sendSlackMessage(response_body);
+			res.json(response_body);
+		})
+		.catch((err) => {
+			console.log('err', err);
+		});
 };

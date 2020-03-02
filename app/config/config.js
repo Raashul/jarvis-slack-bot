@@ -12,13 +12,15 @@ module.exports = {
 	},
 	slack: {
 		auth_token: process.env.SLACK_AUTH_TOKEN,
-		verification_token: process.env.SLACK_VERIFICATION_TOKEN
+		verification_token: process.env.SLACK_VERIFICATION_TOKEN,
+		channel_id: process.env.CHANNEL_ID
 	},
 	jokes_url: 'https://official-joke-api.appspot.com/random_joke',
 	twitter: {
 		api_key: process.env.TWITTER_API_KEY,
 		secret_key: process.env.TWITTER_API_SECRET_KEY,
 		access_token: process.env.TWITTER_API_ACCESS_TOKEN,
-		token_secret: process.env.TWITTER_API_TOKEN_SECRET
+		token_secret: process.env.TWITTER_API_TOKEN_SECRET,
+		twitter_username: process.env.SLACK_USERNAME
 	}
 };
